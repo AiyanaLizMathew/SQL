@@ -44,15 +44,27 @@ SELECT last_name, COUNT(*) as CNT FROM actor GROUP BY last_name;
 SELECT last_name, COUNT(*) as CNT FROM actor GROUP BY last_name HAVING CNT>1; 
 
 -- 4.3: Actor HARPO WILLIAMS was accidentally entered in the actor table as GROUCHO WILLIAMS. Write a query to fix the record.
-SELECT * FROM ACTOR WHERE FIRST_NAME="HARPO" AND LAST_NAME="WILLIAMS";
-UPDATE ACTOR SET FIRST_NAME="HARPO" WHERE FIRST_NAME="GROUCHO" AND LAST_NAME="WILLIAMS";
+SELECT * FROM actor WHERE first_name="GROUCHO" AND last_name="WILLIAMS";
+UPDATE actor SET first_name="HARPO" WHERE first_name = "GROUCHO" AND last_name="WILLIAMS";
 
 -- 4.4:  if the first name of the actor is currently HARPO, change it to GROUCHO. Otherwise, change the first name to MUCHO GROUCHO, as that is exactly what the actor will be with the grievous error.
+SELECT * FROM actor WHERE first_name="HARPO" AND last_name="WILLIAMS";
 
+UPDATE actor SET first_name=(
+	CASE WHEN first_name="HARPO" THEN "GROUCHO"
+    ELSE "MUCHO GROUCHO"
+    END)
+WHERE actor_id=172 AND last_name="WILLIAMS";
 
 -- Exercise 5
 -- 5.1: You cannot locate the schema of the address table. Which query would you use to re-create it?
+-- Locate the schema of address table
+SELECT  *
+FROM    INFORMATION_SCHEMA.TABLES
+where   TABLES.TABLE_NAME="address";
 
+-- Create the database if it doesnot exist
+CREATE database IF NOT EXISTS sakila;
 
 -- Exercise 6
 -- 6.1: Use JOIN to display the first and last names, as well as the address, of each staff member. Use the tables staff and address
